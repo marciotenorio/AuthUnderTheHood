@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
+using Web_App.Authorization;
+
 namespace Web_App;
 
 public class Program
@@ -12,12 +15,32 @@ public class Program
         //In previous versions you must define the default scheme
         builder.Services.AddAuthentication("MyCookieAuth")
             //I can have multiple authentication schemes
+            //Cookie has some properties like: expires, path, domain, max-age, httpOnly (not be changed by JS), etc.
             .AddCookie("MyCookieAuth", opt =>
             {
                 opt.Cookie.Name = "MyCookieAuth";
+                opt.ExpireTimeSpan = TimeSpan.FromSeconds(2_000_000);
+                
+                //Default locations for login and logout
                 opt.LoginPath = "/Account/Login";
                 opt.LogoutPath = "/Account/Logout";
+                opt.AccessDeniedPath = "/Account/AccessDenied";
             });
+
+        builder.Services.AddAuthorization(opt =>
+        {
+            //claim with specific value
+            opt.AddPolicy("MustBelongToHRDepartment", policy => policy.RequireClaim("Department", "HR"));
+            //only claim
+            opt.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+            //both approaches
+            opt.AddPolicy("HRManagerOnly", policy => policy
+                .RequireClaim("Department", "HR")
+                .RequireClaim("Manager")
+                .Requirements.Add(new HRManagerProbationRequirement(3))); //you need to add the handler of requirement to DI
+        });
+
+        builder.Services.AddSingleton<IAuthorizationHandler, HRManagerProbationRequirementHandler>(); //handler registered here!
 
         var app = builder.Build();
 

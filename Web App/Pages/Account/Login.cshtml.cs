@@ -26,6 +26,10 @@ public class LoginModel : PageModel
         {
             new(ClaimTypes.Name, "admin"),
             new(ClaimTypes.Email, "admin@mywebsite.com"),
+            new("Department", "HR"), //custom claim for authorization policy
+            new("Admin", "true"), //only checked if claim existis in specified identity, not his value.
+            new("Manager", "true"),
+            new("EmploymentDate", "2025-05-01")
         };
         //I can have multiple authentication types, here i'm creating one.
         var identity = new ClaimsIdentity(claims, "MyCookieAuth");
@@ -35,7 +39,11 @@ public class LoginModel : PageModel
 
         //serialize as a string (claims principal), encrypt and return as a cookie to the http context.
         //Under the hood the signInAsync uses authentication handler, thats need to be configured! IAuthenticationService.
-        await HttpContext.SignInAsync("MyCookieAuth", principal);
+        await HttpContext.SignInAsync("MyCookieAuth", principal, new()
+        {
+            //configure cookie lifetime to not be browser session.
+            IsPersistent = Credential.RememberMe
+        });
 
         return RedirectToPage("/Index");
     }
