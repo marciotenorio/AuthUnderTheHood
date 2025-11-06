@@ -42,6 +42,11 @@ public class Program
 
         builder.Services.AddSingleton<IAuthorizationHandler, HRManagerProbationRequirementHandler>(); //handler registered here!
 
+        builder.Services.AddHttpClient("OurWebAPI", client =>
+        {
+            client.BaseAddress = new Uri("https://localhost:8081/");
+        });
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -56,7 +61,7 @@ public class Program
 
         app.UseRouting();
 
-        //In previous versions is needed to explicitily declare the use here
+        //In previous versions is needed to explicitly declare the use here
         //right here: after routing and before authorization!
         //Use the authentication handler (IAuthenticationService) to interpret the security context from http request
         app.UseAuthentication();
