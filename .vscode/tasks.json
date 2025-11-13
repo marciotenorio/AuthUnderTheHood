@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-api",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/Web API/Web API.csproj"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-webapp",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/Web APP/Web App.csproj"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-all",
+      "dependsOn": ["build-api", "build-webapp"]
+    },
+    {
+        "label": "delay-start",
+        "command": "bash",
+        "type": "process",
+        "args": [
+            "-c",
+            "sleep 3"
+        ]
+    }
+  ]
+}

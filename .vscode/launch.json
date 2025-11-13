@@ -1,0 +1,58 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "Web API + Web APP",
+            "configurations": ["WebAPI", "WebApp"],
+            "preLaunchTask": "build-all"
+        }
+    ],
+    "configurations": [
+        {
+            "name": "WebAPI",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-api",
+            "program": "${workspaceFolder}/Web API/bin/Debug/net9.0/Web API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Web API",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "launchBrowser": {
+                "enabled": false
+            }
+        },
+        {
+            "name": "WebApp",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-api",
+            "program": "${workspaceFolder}/Web App/bin/Debug/net9.0/Web App.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Web App",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+                "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Web App/Views"
+            },
+            "launchBrowser": {
+                "enabled": false
+            }   
+        }
+    ]
+}

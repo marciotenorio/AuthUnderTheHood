@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web_API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(Policy = "AdminOnly")] //check only if is authenticated
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]

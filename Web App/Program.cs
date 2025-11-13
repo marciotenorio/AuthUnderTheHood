@@ -46,6 +46,13 @@ public class Program
         {
             client.BaseAddress = new Uri("https://localhost:8081/");
         });
+
+        builder.Services.AddSession(opt =>
+        {
+            opt.Cookie.HttpOnly = true;
+            opt.Cookie.IsEssential = true;
+            opt.IdleTimeout = TimeSpan.FromSeconds(3_600);
+        });
         
         var app = builder.Build();
 
@@ -66,6 +73,8 @@ public class Program
         //Use the authentication handler (IAuthenticationService) to interpret the security context from http request
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseSession();
 
         app.MapStaticAssets();
         app.MapRazorPages()
