@@ -53,6 +53,19 @@ The middleware will check if has the cookie, is valid, descrypt and populate the
 When some action needs to be performed in specific pages the **IAuthorizationService** will find all
 requirement handlers that deal with those requirement of that action. 
 
+# ASP.NET Core Identity
+
+The ideia is to standanrize all of the previous manual part about authorization/authentication.
+
+Main NuGet packages:
+>Handle UI in WebApp:
+>> AspNetCore.Identity.UI
+> 
+> Use the functionalities: 
+>> AspNetCore.Identity
+> 
+> Link your users and to the concept of **user** of Identity:
+>> AspNetCore.Identity.EntityFrameworkCore
 
 
 

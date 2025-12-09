@@ -1,0 +1,26 @@
+services:
+  # ======================
+  # SQL SERVER
+  # ======================
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: authsqlserver
+    restart: unless-stopped
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - dev-network
+# ======================
+# NETWORK & VOLUMES
+# ======================
+networks:
+  dev-network:
+    driver: bridge
+
+volumes:
+  sqlserver_data:
